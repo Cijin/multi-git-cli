@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 )
 
@@ -56,6 +57,12 @@ func getGitRepos(rootDir string) ([]string, error) {
 		// ignore files
 		if !file.IsDir() {
 			continue
+		}
+
+		rootDir, err = filepath.Abs(rootDir)
+
+		if err != nil {
+			return gitRepos, err
 		}
 
 		childFolder := rootDir + "/" + file.Name()
